@@ -1,367 +1,113 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+  <title>Diwali Celebration 2026</title>
+  <meta name="theme-color" content="#190b25">
+  <meta name="description" content="Join us for Diwali Celebration 2026!">
 
-    <title>Diwali Celebration 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
-          rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <header class="hero" id="home">
+    <div class="diya">🪔</div>
+    <p class="eyebrow">LIGHT • JOY • TOGETHERNESS</p>
 
-    <!-- ================= FIREWORKS ================= -->
+    <h1>Diwali Celebration 2026</h1>
 
-    <canvas id="fireworks"></canvas>
+    <p class="hero-text">
+      Let's celebrate the festival of lights together!
+    </p>
 
+    <a class="gold-button"
+       href="#organizers">
+      Meet Our Organizers
+    </a>
+  </header>
 
-    <!-- ================= NAVBAR ================= -->
+  <nav class="navbar">
+    <a class="brand" href="#home">🪔 Diwali 2026</a>
 
-    <header class="navbar">
+    <button class="menu-toggle"
+            id="menuToggle"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded="false">
+      ☰
+    </button>
 
-        <div class="logo">
-            🪔 Diwali 2026
-        </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#organizers">Organizers</a>
+      <a href="#connect">Instagram</a>
+    </div>
+  </nav>
 
-        <div class="menu-toggle"
-             onclick="toggleMenu()">
-            ☰
-        </div>
+  <main>
+    <section class="content-section" id="about">
+      <p class="eyebrow">CELEBRATE THE FESTIVAL OF LIGHTS</p>
+      <h2>Happy Diwali!</h2>
 
-        <nav id="navMenu">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#event">Event</a>
-            <a href="#highlights">Highlights</a>
-            <a href="#organizers">Organizers</a>
-            <a href="#contact">Contact</a>
-        </nav>
+      <p>
+        May this Diwali bring happiness, success, friendship,
+        and wonderful memories to everyone.
+      </p>
 
-    </header>
-
-
-    <!-- ================= HERO ================= -->
-
-    <section id="home" class="hero">
-
-        <div class="hero-content">
-
-            <div class="diya">
-                🪔
-            </div>
-
-            <p class="invited">
-                YOU ARE CORDIALLY INVITED TO
-            </p>
-
-            <h1>
-                DIWALI
-                <br>
-                <span>CELEBRATION 2026</span>
-            </h1>
-
-            <p class="hero-text">
-                An evening filled with lights,
-                laughter, music, food and
-                unforgettable memories.
-            </p>
-
-            <a href="#event" class="main-button">
-                Explore Event
-            </a>
-
-        </div>
-
+      <p>
+        Our 5th-year seniors welcome everyone to join this
+        special celebration filled with festive spirit.
+      </p>
     </section>
 
+    <section class="organizers-section" id="organizers">
+      <p class="eyebrow">THE TEAM BEHIND THE MAGIC</p>
+      <h2>Meet Our Organizers</h2>
 
-    <!-- ================= ABOUT ================= -->
+      <p class="organizers-subtitle">
+        Meet the people bringing Diwali Celebration 2026 to life.
+      </p>
 
-    <section id="about" class="section">
+      <div class="organizer-carousel">
+        <div class="organizer-track" id="organizerTrack"></div>
+      </div>
 
-        <div class="section-title">
-            <span>✨</span>
-            <h2>A Night To Remember</h2>
-            <span>✨</span>
-        </div>
-
-        <p class="section-description">
-            Celebrate the festival of lights
-            with friends, seniors and special
-            guests.
-
-            <br><br>
-
-            This Diwali celebration is proudly
-            organized by our 5th-year seniors
-            to bring everyone together for an
-            unforgettable evening.
-        </p>
-
+      <p class="carousel-note">
+        Celebrating the team that makes it happen 🪔
+      </p>
     </section>
 
+    <section class="connect-section" id="connect">
+      <p class="eyebrow">STAY CONNECTED</p>
+      <h2>Follow Our Journey</h2>
 
-    <!-- ================= EVENT DETAILS ================= -->
+      <p>
+        Check out our Instagram for updates, photos, and
+        celebration highlights.
+      </p>
 
-    <section id="event" class="section event-section">
-
-        <div class="section-title">
-            <span>🪔</span>
-            <h2>Event Details</h2>
-            <span>🪔</span>
-        </div>
-
-        <div class="event-cards">
-
-            <!-- DATE -->
-
-            <div class="event-card">
-
-                <div class="event-icon">
-                    📅
-                </div>
-
-                <h3>Date</h3>
-
-                <p>11 November 2026</p>
-
-            </div>
-
-
-            <!-- TIME -->
-
-            <div class="event-card">
-
-                <div class="event-icon">
-                    ⏰
-                </div>
-
-                <h3>Time</h3>
-
-                <p>3:00 PM</p>
-
-            </div>
-
-
-            <!-- VENUE -->
-
-            <div class="event-card">
-
-                <div class="event-icon">
-                    📍
-                </div>
-
-                <h3>Venue</h3>
-
-                <p>Royal Restaurant</p>
-
-            </div>
-
-        </div>
-
+      <a class="gold-button"
+         href="https://www.instagram.com/ksmadiwali2026/"
+         target="_blank"
+         rel="noopener noreferrer">
+        Follow @ksmadiwali2026
+      </a>
     </section>
+  </main>
 
+  <footer>
+    <p>🪔 Happy Diwali 2026 🪔</p>
+    <p class="made-by">Made with ❤️ by Sree</p>
+  </footer>
 
-    <!-- ================= HIGHLIGHTS ================= -->
-
-    <section id="highlights" class="section">
-
-        <div class="section-title">
-            <span>✨</span>
-            <h2>What Awaits You</h2>
-            <span>✨</span>
-        </div>
-
-        <div class="highlight-grid">
-
-            <div class="highlight-card">
-
-                <div>🎵</div>
-
-                <h3>Music</h3>
-
-                <p>
-                    Enjoy an evening filled
-                    with music and entertainment.
-                </p>
-
-            </div>
-
-
-            <div class="highlight-card">
-
-                <div>💃</div>
-
-                <h3>Performances</h3>
-
-                <p>
-                    Special performances
-                    prepared by our students.
-                </p>
-
-            </div>
-
-
-            <div class="highlight-card">
-
-                <div>🍽️</div>
-
-                <h3>Food</h3>
-
-                <p>
-                    Delicious food and
-                    festive treats for everyone.
-                </p>
-
-            </div>
-
-
-            <div class="highlight-card">
-
-                <div>🎉</div>
-
-                <h3>Celebration</h3>
-
-                <p>
-                    A memorable evening with
-                    friends and seniors.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= ORGANIZERS ================= -->
-
-    <section id="organizers" class="section">
-
-        <div class="section-title">
-            <span>🌟</span>
-            <h2>Our Organizers</h2>
-            <span>🌟</span>
-        </div>
-
-        <div class="organizer-box">
-
-            <div class="organizer-icon">
-                🎓
-            </div>
-
-            <h2>5th Year Seniors</h2>
-
-            <p>
-                This celebration is proudly
-                organized by our wonderful
-                5th-year senior students.
-            </p>
-
-            <p class="organizer-note">
-                Bringing everyone together
-                to celebrate the festival
-                of lights.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= INVITATION ================= -->
-
-    <section class="invitation">
-
-        <div class="invitation-content">
-
-            <div class="small-diya">
-                🪔
-            </div>
-
-            <h2>Let's Celebrate Together</h2>
-
-            <p>
-                Come dressed in your traditional
-                best and join us for a night full
-                of happiness, laughter and
-                beautiful memories.
-            </p>
-
-            <div class="shubh">
-                शुभ दीपावली
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= CONTACT ================= -->
-
-    <section id="contact" class="section contact-section">
-
-        <div class="section-title">
-            <span>📞</span>
-            <h2>Stay Connected</h2>
-            <span>📞</span>
-        </div>
-
-        <p class="section-description">
-            For more information, updates
-            and event announcements,
-            connect with us.
-        </p>
-
-        <div class="contact-buttons">
-
-            <!-- INSTAGRAM -->
-
-            <a href="https://www.instagram.com/ksmadiwali2026/"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="contact-button">
-
-                📸 Instagram
-
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer>
-
-        <div class="footer-diya">
-            🪔
-        </div>
-
-        <h3>शुभ दीपावली</h3>
-
-        <p>Diwali Celebration 2026</p>
-
-        <p class="copyright">
-            Made with ❤️ by Students
-        </p>
-
-    </footer>
-
-
-    <!-- ================= JAVASCRIPT ================= -->
-
-    <script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
-
 </html>
