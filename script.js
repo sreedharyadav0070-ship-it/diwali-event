@@ -1,450 +1,77 @@
-/* ================= MOBILE MENU ================= */
 
-function toggleMenu() {
+document.addEventListener("DOMContentLoaded", function () {
+  // Mobile navigation
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
 
-    const menu =
-        document.getElementById("navMenu");
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener("click", function () {
+      const isOpen = navLinks.classList.toggle("open");
 
-    menu.classList.toggle("active");
-
-}
-
-
-const navLinks =
-    document.querySelectorAll("#navMenu a");
-
-
-navLinks.forEach(function(link) {
-
-    link.addEventListener("click", function() {
-
-        document
-            .getElementById("navMenu")
-            .classList.remove("active");
-
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+      menuToggle.textContent = isOpen ? "✕" : "☰";
     });
 
+    navLinks.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+        menuToggle.textContent = "☰";
+      });
+    });
+  }
+
+  // Organizer carousel: organizer01.jpg to organizer22.jpg
+  const track = document.getElementById("organizerTrack");
+
+  if (!track) return;
+
+  const totalOrganizers = 22;
+  const originalCards = [];
+
+  function createOrganizer(number) {
+    const card = document.createElement("article");
+    card.className = "organizer-card";
+
+    const image = document.createElement("img");
+
+    const filename =
+      "organizer" + String(number).padStart(2, "0") + ".jpg";
+
+    image.src = filename;
+    image.alt = "Diwali organizer " + number;
+    image.loading = "eager";
+    image.decoding = "async";
+
+    image.onerror = function () {
+      card.remove();
+    };
+
+    const name = document.createElement("p");
+    name.className = "organizer-name";
+    name.textContent = "Organizer " + number;
+
+    card.appendChild(image);
+    card.appendChild(name);
+
+    return card;
+  }
+
+  for (let i = 1; i <= totalOrganizers; i++) {
+    const card = createOrganizer(i);
+
+    track.appendChild(card);
+    originalCards.push(card);
+  }
+
+  // Duplicate the photos to create a continuous carousel.
+  originalCards.forEach(function (card) {
+    const clone = card.cloneNode(true);
+    track.appendChild(clone);
+  });
 });
-
-
-
-/* ================= FIREWORKS ================= */
-
-const canvas =
-    document.getElementById("fireworks");
-
-const ctx =
-    canvas.getContext("2d");
-
-
-let fireworks = [];
-
-let particles = [];
-
-
-
-/* ================= CANVAS SIZE ================= */
-
-function resizeCanvas() {
-
-    canvas.width =
-        window.innerWidth;
-
-    canvas.height =
-        window.innerHeight;
-
-}
-
-
-resizeCanvas();
-
-
-window.addEventListener(
-    "resize",
-    resizeCanvas
-);
-
-
-
-/* ================= FIREWORK ================= */
-
-class Firework {
-
-    constructor() {
-
-        this.x =
-            Math.random() *
-            canvas.width;
-
-        this.y =
-            canvas.height;
-
-
-        this.targetX =
-            Math.random() *
-            canvas.width;
-
-
-        this.targetY =
-            Math.random() *
-            canvas.height * 0.55
-            + 50;
-
-
-        this.speed = 7;
-
-
-        this.angle =
-            Math.atan2(
-                this.targetY - this.y,
-                this.targetX - this.x
-            );
-
-
-        this.velocityX =
-            Math.cos(this.angle)
-            * this.speed;
-
-
-        this.velocityY =
-            Math.sin(this.angle)
-            * this.speed;
-
-
-        this.exploded = false;
-
-    }
-
-
-    update() {
-
-        this.x +=
-            this.velocityX;
-
-        this.y +=
-            this.velocityY;
-
-
-        const distance =
-            Math.sqrt(
-
-                Math.pow(
-                    this.targetX -
-                    this.x,
-                    2
-                )
-
-                +
-
-                Math.pow(
-                    this.targetY -
-                    this.y,
-                    2
-                )
-
-            );
-
-
-        if (distance < 10) {
-
-            this.explode();
-
-            this.exploded = true;
-
-        }
-
-    }
-
-
-    draw() {
-
-        ctx.beginPath();
-
-
-        ctx.arc(
-            this.x,
-            this.y,
-            2,
-            0,
-            Math.PI * 2
-        );
-
-
-        ctx.fillStyle =
-            "#ffd54a";
-
-
-        ctx.fill();
-
-    }
-
-
-    explode() {
-
-        const particleCount = 80;
-
-
-        for (
-            let i = 0;
-            i < particleCount;
-            i++
-        ) {
-
-            particles.push(
-
-                new Particle(
-                    this.x,
-                    this.y
-                )
-
-            );
-
-        }
-
-    }
-
-}
-
-
-
-/* ================= PARTICLES ================= */
-
-class Particle {
-
-    constructor(x, y) {
-
-        this.x = x;
-
-        this.y = y;
-
-
-        const angle =
-            Math.random() *
-            Math.PI * 2;
-
-
-        const speed =
-            Math.random() * 6 + 2;
-
-
-        this.velocityX =
-            Math.cos(angle) *
-            speed;
-
-
-        this.velocityY =
-            Math.sin(angle) *
-            speed;
-
-
-        this.alpha = 1;
-
-
-        this.gravity = 0.06;
-
-
-        this.friction = 0.98;
-
-    }
-
-
-    update() {
-
-        this.velocityX *=
-            this.friction;
-
-
-        this.velocityY *=
-            this.friction;
-
-
-        this.velocityY +=
-            this.gravity;
-
-
-        this.x +=
-            this.velocityX;
-
-
-        this.y +=
-            this.velocityY;
-
-
-        this.alpha -=
-            0.012;
-
-    }
-
-
-    draw() {
-
-        ctx.save();
-
-
-        ctx.globalAlpha =
-            this.alpha;
-
-
-        ctx.beginPath();
-
-
-        ctx.arc(
-            this.x,
-            this.y,
-            2,
-            0,
-            Math.PI * 2
-        );
-
-
-        ctx.fillStyle =
-            "#ffd54a";
-
-
-        ctx.fill();
-
-
-        ctx.restore();
-
-    }
-
-}
-
-
-
-/* ================= CREATE FIREWORK ================= */
-
-function createFirework() {
-
-    fireworks.push(
-        new Firework()
-    );
-
-}
-
-
-
-/* ================= ANIMATION ================= */
-
-function animate() {
-
-    requestAnimationFrame(
-        animate
-    );
-
-
-    ctx.fillStyle =
-        "rgba(8, 4, 0, 0.18)";
-
-
-    ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    /* Fireworks */
-
-    for (
-        let i = fireworks.length - 1;
-        i >= 0;
-        i--
-    ) {
-
-        const firework =
-            fireworks[i];
-
-
-        firework.update();
-
-        firework.draw();
-
-
-        if (
-            firework.exploded
-        ) {
-
-            fireworks.splice(
-                i,
-                1
-            );
-
-        }
-
-    }
-
-
-
-    /* Particles */
-
-    for (
-        let i = particles.length - 1;
-        i >= 0;
-        i--
-    ) {
-
-        const particle =
-            particles[i];
-
-
-        particle.update();
-
-        particle.draw();
-
-
-        if (
-            particle.alpha <= 0
-        ) {
-
-            particles.splice(
-                i,
-                1
-            );
-
-        }
-
-    }
-
-}
-
-
-
-/* ================= START ================= */
-
-animate();
-
-
-
-/* New fireworks */
-
-setInterval(
-    function() {
-
-        createFirework();
-
-    },
-    1200
-);
-
-
-
-/* Initial fireworks */
-
-setTimeout(
-    createFirework,
-    500
-);
-
-
-setTimeout(
-    createFirework,
-    1500
-);
-
-
-setTimeout(
-    createFirework,
-    2500
-);
