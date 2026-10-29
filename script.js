@@ -3,12 +3,12 @@
 
 /* =========================================
    ANVAYA 2026
-   Automatic organiser carousel
-   Golden fireworks
-   No audio
+   Mobile menu, organiser carousel and
+   decorative golden fireworks.
+   No audio.
    ========================================= */
 
-/* Mobile navigation */
+/* MOBILE NAVIGATION */
 const menuToggle = document.getElementById("menu-toggle");
 const navMenu = document.getElementById("nav-menu");
 
@@ -28,29 +28,33 @@ if (menuToggle && navMenu) {
   });
 }
 
-/* =========================================
-   ORGANISER CAROUSEL
-
-   Expected photo names:
-   organizer01.jpg
-   organizer02.jpg
-   ...
-   organizer22.jpg
-   ========================================= */
+/* ORGANIZER CAROUSEL
+   Photo files must be:
+   organizer01.jpg through organizer22.jpg
+*/
 
 const organizerTrack = document.getElementById("organizer-track");
 const organizerCount = 22;
 
 if (organizerTrack) {
-  const makeCard = (number) => {
+  function makeOrganizerCard(number, isDuplicate = false) {
     const card = document.createElement("article");
     card.className = "organizer-card";
 
+    if (isDuplicate) {
+      card.setAttribute("aria-hidden", "true");
+    }
+
     const img = document.createElement("img");
     img.src = `organizer${String(number).padStart(2, "0")}.jpg`;
-    img.alt = `ANVAYA 2026 organizer ${number}`;
+    img.alt = isDuplicate ? "" : `ANVAYA 2026 organizer ${number}`;
     img.loading = number <= 4 ? "eager" : "lazy";
     img.decoding = "async";
+
+    img.addEventListener("error", () => {
+      img.style.opacity = "0.15";
+      img.alt = isDuplicate ? "" : `Photo missing for organizer ${number}`;
+    });
 
     const name = document.createElement("h3");
     name.textContent = `Organizer ${number}`;
@@ -58,34 +62,21 @@ if (organizerTrack) {
     const caption = document.createElement("p");
     caption.textContent = "ANVAYA 2026";
 
-    img.addEventListener("error", () => {
-      img.alt = `Photo not found for organizer ${number}`;
-      img.style.opacity = "0.15";
-    });
-
     card.append(img, name, caption);
     return card;
-  };
-
-  /* First set */
-  for (let i = 1; i <= organizerCount; i++) {
-    organizerTrack.appendChild(makeCard(i));
   }
 
-  /* Duplicate set for continuous scrolling */
-  for (let i = 1; i <= organizerCount; i++) {
-    const duplicate = makeCard(i);
-    duplicate.setAttribute("aria-hidden", "true");
-    duplicate.querySelector("img").alt = "";
-    organizerTrack.appendChild(duplicate);
+  for (let number = 1; number <= organizerCount; number++) {
+    organizerTrack.appendChild(makeOrganizerCard(number));
+  }
+
+  /* Duplicate the cards to create a continuous loop */
+  for (let number = 1; number <= organizerCount; number++) {
+    organizerTrack.appendChild(makeOrganizerCard(number, true));
   }
 }
 
-/* =========================================
-   ENHANCED FIREWORKS
-   Gold, amber, orange and red particles.
-   Decorative only: no sound.
-   ========================================= */
+/* GOLDEN FIREWORKS */
 
 const canvas = document.getElementById("fireworks");
 const ctx = canvas ? canvas.getContext("2d") : null;
@@ -95,7 +86,7 @@ if (canvas && ctx) {
   let height = 0;
   let particles = [];
   let lastBurst = 0;
-  let nextBurst = 800;
+  let nextBurst = 700;
 
   const colours = [
     [255, 210, 110],
@@ -125,7 +116,7 @@ if (canvas && ctx) {
     const x = width * (0.1 + Math.random() * 0.8);
     const y = height * (0.08 + Math.random() * 0.42);
     const colour = colours[Math.floor(Math.random() * colours.length)];
-    const count = 40 + Math.floor(Math.random() * 35);
+    const count = 45 + Math.floor(Math.random() * 30);
     const speed = 1.0 + Math.random() * 2.0;
 
     for (let i = 0; i < count; i++) {
@@ -139,7 +130,7 @@ if (canvas && ctx) {
         previousY: y,
         vx: Math.cos(angle) * particleSpeed,
         vy: Math.sin(angle) * particleSpeed,
-        life: 45 + Math.random() * 45,
+        life: 50 + Math.random() * 40,
         maxLife: 90,
         radius: 0.8 + Math.random() * 1.6,
         colour
@@ -153,10 +144,10 @@ if (canvas && ctx) {
     if (time - lastBurst > nextBurst) {
       createBurst();
       lastBurst = time;
-      nextBurst = 900 + Math.random() * 1300;
+      nextBurst = 700 + Math.random() * 1000;
     }
 
-    particles = particles.filter((p) => p.life > 0);
+    particles = particles.filter((particle) => particle.life > 0);
 
     for (const p of particles) {
       p.previousX = p.x;
@@ -171,7 +162,6 @@ if (canvas && ctx) {
       const opacity = Math.max(0, p.life / p.maxLife);
       const [r, g, b] = p.colour;
 
-      /* Glowing spark trail */
       ctx.beginPath();
       ctx.moveTo(p.previousX, p.previousY);
       ctx.lineTo(p.x, p.y);
@@ -179,7 +169,6 @@ if (canvas && ctx) {
       ctx.lineWidth = p.radius;
       ctx.stroke();
 
-      /* Bright spark head */
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
