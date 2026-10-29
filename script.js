@@ -1,163 +1,137 @@
 
-/* ==================================
-   DIWALI CELEBRATION 2026
-   No audio
-================================== */
-
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* ENVELOPE INTRO */
-
-    const intro = document.getElementById("intro");
-    const envelope = document.getElementById("envelope");
-    const openButton = document.getElementById("openInvite");
-    let invitationOpened = false;
-
-    document.body.classList.add("intro-active");
-
-    function openInvitation() {
-        if (invitationOpened) return;
-
-        invitationOpened = true;
-        envelope.classList.add("opened");
-
-        setTimeout(function () {
-            intro.classList.add("hidden");
-            document.body.classList.remove("intro-active");
-        }, 950);
-    }
-
-    envelope.addEventListener("click", openInvitation);
-    openButton.addEventListener("click", openInvitation);
-
     /* MOBILE NAVIGATION */
+    const menuToggle = document.getElementById("menu-toggle")
+        || document.querySelector(".menu-toggle");
 
-    const menuToggle = document.getElementById("menuToggle");
     const navMenu = document.getElementById("navMenu");
 
-    menuToggle.addEventListener("click", function () {
-        const isOpen = navMenu.classList.toggle("open");
-        menuToggle.setAttribute("aria-expanded", String(isOpen));
-        menuToggle.textContent = isOpen ? "✕" : "☰";
-    });
-
-    navMenu.querySelectorAll("a").forEach(function (link) {
-        link.addEventListener("click", function () {
-            navMenu.classList.remove("open");
-            menuToggle.setAttribute("aria-expanded", "false");
-            menuToggle.textContent = "☰";
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener("click", function () {
+            navMenu.classList.toggle("open");
         });
-    });
+
+        navMenu.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                navMenu.classList.remove("open");
+            });
+        });
+    }
 
     /* ORGANIZER CAROUSEL */
+    const organizerTrack = document.querySelector(".organizer-track");
 
-    const track = document.querySelector(".organizer-track");
+    if (organizerTrack && !organizerTrack.dataset.duplicated) {
+        const originalSlides = Array.from(organizerTrack.children);
 
-    if (track && track.dataset.duplicated !== "true") {
-        const slides = Array.from(track.children);
-
-        slides.forEach(function (slide) {
+        originalSlides.forEach(function (slide) {
             const clone = slide.cloneNode(true);
             clone.setAttribute("aria-hidden", "true");
 
             clone.querySelectorAll("img").forEach(function (img) {
                 img.alt = "";
-                img.removeAttribute("loading");
             });
 
-            track.appendChild(clone);
+            organizerTrack.appendChild(clone);
         });
 
-        track.dataset.duplicated = "true";
+        organizerTrack.dataset.duplicated = "true";
     }
 
-    /* FIREWORKS ANIMATION */
-
+    /* FESTIVE FIREWORKS — NO SOUND */
     const canvas = document.getElementById("fireworks");
-    const ctx = canvas.getContext("2d");
-    const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
 
-    let width = 0;
-    let height = 0;
-    let particles = [];
-    let lastLaunch = 0;
-    let animationFrame = null;
+    if (canvas) {
+        const ctx = canvas.getContext("2d");
+        let width = 0;
+        let height = 0;
+        let particles = [];
+        let lastLaunch = 0;
 
-    function resizeCanvas() {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        function resizeCanvas() {
+            const ratio = Math.min(window.devicePixelRatio || 1, 2);
 
-        width = window.innerWidth;
-        height = window.innerHeight;
+            width = window.innerWidth;
+            height = window.innerHeight;
 
-        canvas.width = Math.floor(width * dpr);
-        canvas.height = Math.floor(height * dpr);
-        canvas.style.width = width + "px";
-        canvas.style.height = height + "px";
+            canvas.width = width * ratio;
+            canvas.height = height * ratio;
+            canvas.style.width = width + "px";
+            canvas.style.height = height + "px";
 
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
+            ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        }
 
-    function launchFirework() {
-        if (particles.length > 450) return;
+        function launchFirework() {
+            const x = Math.random() * width;
+            const y = height * (0.12 + Math.random() * 0.42);
+            const hue = 35 + Math.random() * 35;
+            const count = 35 + Math.floor(Math.random() * 25);
 
-        const x = Math.random() * width;
-        const y = Math.random() * height * 0.48 + 30;
-        const hue = Math.random() * 45 + 20;
-        const count = 35;
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * i) / count;
+                const speed = 1 + Math.random() * 3;
 
-        for (let i = 0; i < count; i++) {
-            const angle = (Math.PI * 2 * i) / count;
-            const speed = Math.random() * 2.8 + 0.8;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 45 + Math.random() * 30,
+                    maxLife: 75,
+                    hue: hue,
+                    size: 1 + Math.random() * 2
+                });
+            }
+        }
 
-            particles.push({
-                x: x,
-                y: y,
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed,
-                life: 1,
-                decay: Math.random() * 0.012 + 0.009,
-                hue: hue
+        function animateFireworks(timestamp) {
+            ctx.clearRect(0, 0, width, height);
+
+            if (timestamp - lastLaunch > 900 + Math.random() * 700) {
+                launchFirework();
+                lastLaunch = timestamp;
+            }
+
+            particles = particles.filter(function (particle) {
+                return particle.life > 0;
             });
+
+            particles.forEach(function (particle) {
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                particle.vy += 0.025;
+                particle.vx *= 0.99;
+                particle.life -= 1;
+
+                const opacity = Math.max(0, particle.life / particle.maxLife);
+
+                ctx.beginPath();
+                ctx.arc(
+                    particle.x,
+                    particle.y,
+                    particle.size,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fillStyle =
+                    "hsla(" + particle.hue + ", 100%, 70%, " +
+                    opacity + ")";
+
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "#f5c76b";
+                ctx.fill();
+            });
+
+            ctx.shadowBlur = 0;
+            requestAnimationFrame(animateFireworks);
         }
-    }
 
-    function animateFireworks(timestamp) {
-        ctx.clearRect(0, 0, width, height);
-
-        if (!reduceMotion && timestamp - lastLaunch > 1250) {
-            launchFirework();
-            lastLaunch = timestamp;
-        }
-
-        particles = particles.filter(function (p) {
-            return p.life > 0;
-        });
-
-        particles.forEach(function (p) {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.vy += 0.018;
-            p.vx *= 0.99;
-            p.vy *= 0.99;
-            p.life -= p.decay;
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
-            ctx.fillStyle =
-                "hsla(" + p.hue + ", 100%, 68%, " + p.life + ")";
-            ctx.fill();
-        });
-
-        animationFrame = requestAnimationFrame(animateFireworks);
-    }
-
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    if (!reduceMotion) {
-        animationFrame = requestAnimationFrame(animateFireworks);
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+        requestAnimationFrame(animateFireworks);
     }
 
 });
