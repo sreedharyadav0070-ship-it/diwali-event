@@ -1,10 +1,12 @@
 
 "use strict";
 
-/* ==========================================
-   DIWALI CELEBRATION 2026
-   No envelope intro and no audio.
-   ========================================== */
+/* =========================================
+   ANVAYA 2026
+   Automatic organiser carousel
+   Golden fireworks
+   No audio
+   ========================================= */
 
 /* Mobile navigation */
 const menuToggle = document.getElementById("menu-toggle");
@@ -26,62 +28,64 @@ if (menuToggle && navMenu) {
   });
 }
 
-/* ==========================================
-   ORGANIZER CAROUSEL
+/* =========================================
+   ORGANISER CAROUSEL
 
-   Expected files in the same folder as index.html:
+   Expected photo names:
    organizer01.jpg
    organizer02.jpg
    ...
    organizer22.jpg
-
-   Change the filename pattern below if your actual
-   filenames are different.
-   ========================================== */
+   ========================================= */
 
 const organizerTrack = document.getElementById("organizer-track");
 const organizerCount = 22;
 
 if (organizerTrack) {
-  const createOrganizerCard = (number) => {
+  const makeCard = (number) => {
     const card = document.createElement("article");
     card.className = "organizer-card";
 
-    const image = document.createElement("img");
-    image.src = `organizer${String(number).padStart(2, "0")}.jpg`;
-    image.alt = `Diwali organizer ${number}`;
-    image.loading = number <= 4 ? "eager" : "lazy";
-    image.decoding = "async";
+    const img = document.createElement("img");
+    img.src = `organizer${String(number).padStart(2, "0")}.jpg`;
+    img.alt = `ANVAYA 2026 organizer ${number}`;
+    img.loading = number <= 4 ? "eager" : "lazy";
+    img.decoding = "async";
 
     const name = document.createElement("h3");
     name.textContent = `Organizer ${number}`;
 
-    const role = document.createElement("p");
-    role.textContent = "Diwali Celebration 2026";
+    const caption = document.createElement("p");
+    caption.textContent = "ANVAYA 2026";
 
-    image.addEventListener("error", () => {
-      image.alt = `Photo not found for organizer ${number}`;
-      image.style.visibility = "hidden";
+    img.addEventListener("error", () => {
+      img.alt = `Photo not found for organizer ${number}`;
+      img.style.opacity = "0.15";
     });
 
-    card.append(image, name, role);
+    card.append(img, name, caption);
     return card;
   };
 
-  const addOrganizerSet = () => {
-    for (let i = 1; i <= organizerCount; i++) {
-      organizerTrack.appendChild(createOrganizerCard(i));
-    }
-  };
+  /* First set */
+  for (let i = 1; i <= organizerCount; i++) {
+    organizerTrack.appendChild(makeCard(i));
+  }
 
-  addOrganizerSet();
-  addOrganizerSet();
+  /* Duplicate set for continuous scrolling */
+  for (let i = 1; i <= organizerCount; i++) {
+    const duplicate = makeCard(i);
+    duplicate.setAttribute("aria-hidden", "true");
+    duplicate.querySelector("img").alt = "";
+    organizerTrack.appendChild(duplicate);
+  }
 }
 
-/* ==========================================
-   GOLDEN FIREWORK PARTICLES
-   Decorative canvas animation only.
-   ========================================== */
+/* =========================================
+   ENHANCED FIREWORKS
+   Gold, amber, orange and red particles.
+   Decorative only: no sound.
+   ========================================= */
 
 const canvas = document.getElementById("fireworks");
 const ctx = canvas ? canvas.getContext("2d") : null;
@@ -91,8 +95,17 @@ if (canvas && ctx) {
   let height = 0;
   let particles = [];
   let lastBurst = 0;
+  let nextBurst = 800;
 
-  const resizeCanvas = () => {
+  const colours = [
+    [255, 210, 110],
+    [255, 166, 55],
+    [255, 225, 160],
+    [255, 95, 55],
+    [255, 190, 65]
+  ];
+
+  function resizeCanvas() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     width = window.innerWidth;
@@ -104,60 +117,80 @@ if (canvas && ctx) {
     canvas.style.height = `${height}px`;
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  };
+  }
 
-  const createBurst = () => {
-    if (particles.length > 180) return;
+  function createBurst() {
+    if (particles.length > 360) return;
 
-    const x = width * (0.15 + Math.random() * 0.7);
-    const y = height * (0.12 + Math.random() * 0.43);
-    const count = 16 + Math.floor(Math.random() * 13);
+    const x = width * (0.1 + Math.random() * 0.8);
+    const y = height * (0.08 + Math.random() * 0.42);
+    const colour = colours[Math.floor(Math.random() * colours.length)];
+    const count = 40 + Math.floor(Math.random() * 35);
+    const speed = 1.0 + Math.random() * 2.0;
 
     for (let i = 0; i < count; i++) {
       const angle = (Math.PI * 2 * i) / count;
-      const speed = 0.5 + Math.random() * 1.7;
+      const particleSpeed = speed * (0.45 + Math.random() * 0.8);
 
       particles.push({
         x,
         y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        life: 45 + Math.random() * 30,
-        maxLife: 75,
-        radius: 0.8 + Math.random() * 1.4
+        previousX: x,
+        previousY: y,
+        vx: Math.cos(angle) * particleSpeed,
+        vy: Math.sin(angle) * particleSpeed,
+        life: 45 + Math.random() * 45,
+        maxLife: 90,
+        radius: 0.8 + Math.random() * 1.6,
+        colour
       });
     }
-  };
+  }
 
-  const animate = (time) => {
+  function animate(time) {
     ctx.clearRect(0, 0, width, height);
 
-    if (time - lastBurst > 1700 + Math.random() * 1300) {
+    if (time - lastBurst > nextBurst) {
       createBurst();
       lastBurst = time;
+      nextBurst = 900 + Math.random() * 1300;
     }
 
     particles = particles.filter((p) => p.life > 0);
 
     for (const p of particles) {
+      p.previousX = p.x;
+      p.previousY = p.y;
+
       p.x += p.vx;
       p.y += p.vy;
-      p.vy += 0.008;
+      p.vx *= 0.992;
+      p.vy = p.vy * 0.992 + 0.018;
       p.life -= 1;
 
       const opacity = Math.max(0, p.life / p.maxLife);
+      const [r, g, b] = p.colour;
 
+      /* Glowing spark trail */
+      ctx.beginPath();
+      ctx.moveTo(p.previousX, p.previousY);
+      ctx.lineTo(p.x, p.y);
+      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${opacity * 0.75})`;
+      ctx.lineWidth = p.radius;
+      ctx.stroke();
+
+      /* Bright spark head */
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, ${180 + Math.floor(Math.random() * 60)}, 85, ${opacity})`;
-      ctx.shadowBlur = 9;
-      ctx.shadowColor = "rgba(255, 184, 75, 0.65)";
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
       ctx.fill();
     }
 
     ctx.shadowBlur = 0;
     requestAnimationFrame(animate);
-  };
+  }
 
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
