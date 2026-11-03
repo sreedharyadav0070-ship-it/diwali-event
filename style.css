@@ -355,6 +355,11 @@ h2 span {
   animation: carousel-scroll 75s linear infinite;
 }
 
+/* SECOND CAROUSEL: OPPOSITE DIRECTION */
+.organizer-track-reverse {
+  animation: carousel-scroll-reverse 75s linear infinite;
+}
+
 .carousel-window:hover .organizer-track {
   animation-play-state: paused;
 }
@@ -460,9 +465,16 @@ footer {
   font-family: "Poppins", sans-serif;
 }
 
+/* FIRST CAROUSEL ANIMATION */
 @keyframes carousel-scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+
+/* SECOND CAROUSEL ANIMATION */
+@keyframes carousel-scroll-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
 
 @keyframes diya-glow {
