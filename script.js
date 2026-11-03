@@ -1,9 +1,8 @@
-
 "use strict";
 
 /* =========================================
    ANVAYA 2026
-   Mobile menu, two organizer carousels
+   Mobile menu, two 51-organizer carousels
    and decorative golden fireworks.
    No audio.
    ========================================= */
@@ -16,6 +15,7 @@ const navMenu = document.getElementById("nav-menu");
 if (menuToggle && navMenu) {
   menuToggle.addEventListener("click", () => {
     const isOpen = navMenu.classList.toggle("open");
+
     menuToggle.setAttribute("aria-expanded", String(isOpen));
     menuToggle.textContent = isOpen ? "✕" : "☰";
   });
@@ -29,7 +29,13 @@ if (menuToggle && navMenu) {
   });
 }
 
-/* ORGANIZER NAMES */
+/* ORGANIZER CAROUSELS
+   Photo files:
+   organizer01.jpg through organizer51.jpg
+*/
+
+const organizerTrack = document.getElementById("organizer-track");
+const organizerTrackReverse = document.getElementById("organizer-track-reverse");
 
 const organizerNames = [
   "Ashritha",
@@ -87,8 +93,6 @@ const organizerNames = [
 
 const organizerCount = organizerNames.length;
 
-/* CREATE ORGANIZER CARD */
-
 function makeOrganizerCard(number, isDuplicate = false) {
   const card = document.createElement("article");
   card.className = "organizer-card";
@@ -106,14 +110,13 @@ function makeOrganizerCard(number, isDuplicate = false) {
 
   img.addEventListener("error", () => {
     img.style.opacity = "0.15";
-    img.alt = isDuplicate ? "" :
-      `Photo missing for ${organizerNames[number - 1]}`;
+    img.alt = isDuplicate ? "" : `Photo missing for ${organizerNames[number - 1]}`;
   });
 
   const name = document.createElement("h3");
   name.textContent = organizerNames[number - 1];
 
-  /* Display only the organizer's name */
+  /* Only the organizer's name is displayed */
   card.append(img, name);
 
   return card;
@@ -121,15 +124,12 @@ function makeOrganizerCard(number, isDuplicate = false) {
 
 /* FIRST CAROUSEL: 1 TO 51 */
 
-const organizerTrack = document.getElementById("organizer-track");
-
 if (organizerTrack) {
-
   for (let number = 1; number <= organizerCount; number++) {
     organizerTrack.appendChild(makeOrganizerCard(number));
   }
 
-  /* Duplicate for continuous scrolling */
+  /* Duplicate all cards for seamless continuous scrolling */
   for (let number = 1; number <= organizerCount; number++) {
     organizerTrack.appendChild(makeOrganizerCard(number, true));
   }
@@ -137,19 +137,14 @@ if (organizerTrack) {
 
 /* SECOND CAROUSEL: 51 TO 1 */
 
-const reverseOrganizerTrack =
-  document.getElementById("organizer-track-reverse");
-
-if (reverseOrganizerTrack) {
-
-  /* Create organizers in reverse order */
+if (organizerTrackReverse) {
   for (let number = organizerCount; number >= 1; number--) {
-    reverseOrganizerTrack.appendChild(makeOrganizerCard(number));
+    organizerTrackReverse.appendChild(makeOrganizerCard(number));
   }
 
-  /* Duplicate the reverse order for continuous scrolling */
+  /* Duplicate the reversed sequence for seamless scrolling */
   for (let number = organizerCount; number >= 1; number--) {
-    reverseOrganizerTrack.appendChild(makeOrganizerCard(number, true));
+    organizerTrackReverse.appendChild(makeOrganizerCard(number, true));
   }
 }
 
