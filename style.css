@@ -1,3 +1,4 @@
+
 :root {
   --bg: #080604;
   --gold: #e8bb65;
@@ -69,7 +70,6 @@ footer {
   object-position: center;
   flex-shrink: 0;
 
-  /* Keep the image background transparent */
   background: transparent;
   border: none;
   box-shadow: none;
@@ -359,6 +359,80 @@ h2 span {
   text-shadow: 0 0 30px rgba(255, 120, 35, 0.7);
 }
 
+/* GUEST PHOTOS */
+
+.guest-photos-section {
+  overflow: hidden;
+}
+
+.guest-carousel {
+  display: flex;
+  gap: 18px;
+  width: 100%;
+  margin: 35px auto 12px;
+  padding: 10px 3px 22px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) rgba(232, 187, 101, 0.12);
+}
+
+.guest-carousel::-webkit-scrollbar {
+  height: 6px;
+}
+
+.guest-carousel::-webkit-scrollbar-track {
+  background: rgba(232, 187, 101, 0.12);
+  border-radius: 10px;
+}
+
+.guest-carousel::-webkit-scrollbar-thumb {
+  background: rgba(232, 187, 101, 0.65);
+  border-radius: 10px;
+}
+
+.guest-card {
+  flex: 0 0 220px;
+  width: 220px;
+  padding: 9px 9px 17px;
+  overflow: hidden;
+  text-align: center;
+  scroll-snap-align: start;
+  border: 1px solid rgba(232, 187, 101, 0.38);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #21170d, #0d0a07);
+}
+
+.guest-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 5px;
+  background: #21170d;
+}
+
+.guest-card h3 {
+  margin-top: 13px;
+  color: var(--gold-light);
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.guest-swipe-hint {
+  margin-top: 13px;
+  color: #a58b5c;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
 /* ORGANIZER CAROUSELS */
 
 .organizers-section {
@@ -635,6 +709,21 @@ footer {
   .carousel-caption {
     font-size: 8px;
     letter-spacing: 2px;
+  }
+
+  /* GUEST PHOTOS MOBILE */
+
+  .guest-carousel {
+    gap: 14px;
+  }
+
+  .guest-card {
+    flex-basis: 170px;
+    width: 170px;
+  }
+
+  .guest-card h3 {
+    font-size: 11px;
   }
 }
 
