@@ -3,7 +3,7 @@
 
 /* =========================================
    ANVAYA 2026
-   Mobile menu, organiser carousel and
+   Mobile menu, 51-organizer carousel and
    decorative golden fireworks.
    No audio.
    ========================================= */
@@ -29,14 +29,70 @@ if (menuToggle && navMenu) {
 }
 
 /* ORGANIZER CAROUSEL
-   Photo files must be:
-   organizer01.jpg through organizer22.jpg
+   Photo files:
+   organizer01.jpg through organizer51.jpg
 */
 
 const organizerTrack = document.getElementById("organizer-track");
-const organizerCount = 22;
+
+const organizerNames = [
+  "Ashritha",
+  "Siddhu",
+  "Aparna",
+  "yashvitha",
+  "Dimple reecha",
+  "Balu",
+  "A.Jayasri",
+  "srikar reddy",
+  "Nayanee",
+  "Prasanna",
+  "Sravya",
+  "Amrutha",
+  "L.Jayasri",
+  "Dikshitha",
+  "Chndra Keerthi",
+  "Pravalika",
+  "Sumanasvi",
+  "Sreeja",
+  "Churnika",
+  "Akshay",
+  "Sree Yadav",
+  "Sunandini",
+  "Hanishka",
+  "Ramakanth",
+  "Aiswarya",
+  "Nithin",
+  "Manasa",
+  "Vijay",
+  "Nissi",
+  "Sindhu",
+  "Khythi",
+  "Rushi",
+  "Harish",
+  "Venkat",
+  "Bhuvan",
+  "Naveen",
+  "Asra",
+  "Kaleem",
+  "Kishore",
+  "Safwan",
+  "Ghanashyam",
+  "Jnanadeep",
+  "vasu",
+  "vinay",
+  "Yamuna",
+  "HARDIK",
+  "Vamshi",
+  "Sharath",
+  "Sougandh",
+  "Nagaratnam",
+  "Thanusree"
+];
+
+const organizerCount = organizerNames.length;
 
 if (organizerTrack) {
+
   function makeOrganizerCard(number, isDuplicate = false) {
     const card = document.createElement("article");
     card.className = "organizer-card";
@@ -46,31 +102,32 @@ if (organizerTrack) {
     }
 
     const img = document.createElement("img");
+
     img.src = `organizer${String(number).padStart(2, "0")}.jpg`;
-    img.alt = isDuplicate ? "" : `ANVAYA 2026 organizer ${number}`;
+    img.alt = isDuplicate ? "" : organizerNames[number - 1];
     img.loading = number <= 4 ? "eager" : "lazy";
     img.decoding = "async";
 
     img.addEventListener("error", () => {
       img.style.opacity = "0.15";
-      img.alt = isDuplicate ? "" : `Photo missing for organizer ${number}`;
+      img.alt = isDuplicate ? "" : `Photo missing for ${organizerNames[number - 1]}`;
     });
 
     const name = document.createElement("h3");
-    name.textContent = `Organizer ${number}`;
+    name.textContent = organizerNames[number - 1];
 
-    const caption = document.createElement("p");
-    caption.textContent = "ANVAYA 2026";
+    /* Only the organizer's name is displayed */
+    card.append(img, name);
 
-    card.append(img, name, caption);
     return card;
   }
 
+  /* Create original 51 organizer cards */
   for (let number = 1; number <= organizerCount; number++) {
     organizerTrack.appendChild(makeOrganizerCard(number));
   }
 
-  /* Duplicate the cards to create a continuous loop */
+  /* Duplicate all cards for continuous scrolling */
   for (let number = 1; number <= organizerCount; number++) {
     organizerTrack.appendChild(makeOrganizerCard(number, true));
   }
