@@ -1,4 +1,3 @@
-
 :root {
   --bg: #080604;
   --gold: #e8bb65;
@@ -47,16 +46,33 @@ footer {
 
 .navbar {
   min-height: 72px;
-  padding: 15px 7%;
+  padding: 12px 3%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   position: sticky;
   top: 0;
   z-index: 20;
   background: rgba(8, 6, 4, 0.91);
   border-bottom: 1px solid rgba(232, 187, 101, 0.25);
   backdrop-filter: blur(14px);
+}
+
+/* HEADER LOGOS */
+
+.header-logo {
+  display: block;
+  width: 58px;
+  height: 48px;
+  object-fit: contain;
+  object-position: center;
+  flex-shrink: 0;
+
+  /* Keep the image background transparent */
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .logo {
@@ -66,12 +82,15 @@ footer {
   font-size: 17px;
   letter-spacing: 1px;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 #nav-menu {
   display: flex;
   align-items: center;
-  gap: 24px;
+  justify-content: center;
+  flex: 1;
+  gap: clamp(10px, 2vw, 24px);
 }
 
 #nav-menu a {
@@ -95,6 +114,8 @@ footer {
   font-size: 23px;
   cursor: pointer;
 }
+
+/* HERO */
 
 .hero {
   min-height: 88vh;
@@ -202,6 +223,8 @@ h2 span {
   letter-spacing: 4px;
 }
 
+/* GENERAL SECTIONS */
+
 .section {
   padding: 100px 7%;
   text-align: center;
@@ -273,6 +296,8 @@ h2 span {
   line-height: 1.8;
 }
 
+/* EVENT */
+
 .event-section {
   background: linear-gradient(180deg, transparent, rgba(42, 26, 8, 0.35), transparent);
 }
@@ -310,6 +335,8 @@ h2 span {
   line-height: 1.8;
 }
 
+/* HIGHLIGHTS */
+
 .highlight-art {
   min-height: 150px;
   margin-bottom: 25px;
@@ -332,6 +359,8 @@ h2 span {
   text-shadow: 0 0 30px rgba(255, 120, 35, 0.7);
 }
 
+/* ORGANIZER CAROUSELS */
+
 .organizers-section {
   overflow: hidden;
 }
@@ -353,11 +382,6 @@ h2 span {
   width: max-content;
   will-change: transform;
   animation: carousel-scroll 75s linear infinite;
-}
-
-/* SECOND CAROUSEL: OPPOSITE DIRECTION */
-.organizer-track-reverse {
-  animation: carousel-scroll-reverse 75s linear infinite;
 }
 
 .carousel-window:hover .organizer-track {
@@ -406,6 +430,8 @@ h2 span {
   letter-spacing: 3px;
 }
 
+/* CLOSING SECTION */
+
 .closing-section {
   padding: 85px 22px;
   text-align: center;
@@ -450,6 +476,8 @@ h2 span {
   transform: translateY(-2px);
 }
 
+/* FOOTER */
+
 footer {
   text-align: center;
   border-top: 1px solid rgba(232, 187, 101, 0.2);
@@ -465,39 +493,79 @@ footer {
   font-family: "Poppins", sans-serif;
 }
 
-/* FIRST CAROUSEL ANIMATION */
-@keyframes carousel-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
+/* EXISTING ANIMATIONS */
 
-/* SECOND CAROUSEL ANIMATION */
-@keyframes carousel-scroll-reverse {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
+@keyframes carousel-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes diya-glow {
-  from { filter: drop-shadow(0 0 12px rgba(255, 174, 52, 0.35)); }
-  to { filter: drop-shadow(0 0 32px rgba(255, 174, 52, 0.85)); }
+  from {
+    filter: drop-shadow(0 0 12px rgba(255, 174, 52, 0.35));
+  }
+
+  to {
+    filter: drop-shadow(0 0 32px rgba(255, 174, 52, 0.85));
+  }
 }
 
 @keyframes glow {
-  from { opacity: 0.5; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1.15); }
+  from {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.15);
+  }
 }
 
+/* REVERSE CAROUSEL */
+
+.organizer-track-reverse {
+  animation-name: carousel-scroll-reverse;
+}
+
+@keyframes carousel-scroll-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* MOBILE RESPONSIVENESS */
+
 @media (max-width: 760px) {
+
   .navbar {
-    padding: 14px 5%;
+    min-height: 64px;
+    padding: 10px 3%;
+    gap: 8px;
+  }
+
+  .header-logo {
+    width: 34px;
+    height: 34px;
   }
 
   .logo {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .menu-toggle {
     display: block;
+    padding: 5px 9px;
+    font-size: 20px;
   }
 
   #nav-menu {
@@ -569,6 +637,8 @@ footer {
     letter-spacing: 2px;
   }
 }
+
+/* REDUCED MOTION ACCESSIBILITY */
 
 @media (prefers-reduced-motion: reduce) {
   html {
