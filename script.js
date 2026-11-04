@@ -46,7 +46,7 @@ const organizerNames = [
   "Balu",
   "A.Jayasri",
   "srikar reddy",
-  "Nayanee",
+  "Naynee",
   "Prasanna",
   "Sravya",
   "Amrutha",
